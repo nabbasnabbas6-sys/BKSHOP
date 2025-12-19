@@ -4,7 +4,7 @@ export function Header() {
       <div className="relative rounded-3xl overflow-hidden shadow-2xl min-h-[50vh] flex items-center justify-center group">
         <div 
           className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-          style={{ backgroundImage: 'url(/home.png)' }}
+          style={{ backgroundImage: `url(${import.meta.env.BASE_URL}home.png)` }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         
