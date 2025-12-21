@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node dist/index.js",
-    "prestart": "ls -la dist || true",
+    "prestart": "node -e \"const fs=require('fs'); try{ const files=fs.readdirSync('dist'); console.log('dist files:'); files.forEach(f=>console.log('-',f)); }catch(e){ console.error('dist not found:', e.message); }\"",
     "dev": "nodemon --exec tsx src/index.ts",
     "build": "tsc",
     "lint": "eslint src --ext .ts"
