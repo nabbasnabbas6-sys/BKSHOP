@@ -18,6 +18,9 @@ ENV NODE_ENV=production
 COPY --from=builder /app/Backend/dist ./dist
 COPY Backend/package*.json ./
 
+# Copy public assets from UserFrontend into Backend/public so backend can serve images
+COPY UserFrontend/public ./public/
+
 # Install production deps
 RUN npm ci --production --silent || true
 

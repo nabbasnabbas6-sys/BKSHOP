@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 import productRoutes from './routes/products.js';
 import promotionRoutes from './routes/promotions.js';
 import orderRoutes from './routes/orders.js';
@@ -14,6 +15,10 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from Backend/public (so product images like /hoodies.jpg resolve)
+const publicDir = path.join(process.cwd(), 'public');
+app.use(express.static(publicDir));
 
 // Routes
 app.use('/api/products', productRoutes);
