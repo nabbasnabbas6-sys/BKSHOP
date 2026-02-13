@@ -1,4 +1,4 @@
-name: Deploy UserFrontend to GitHub Pages
+name: Deploy Frontends to GitHub Pages
 
 on:
   push:
@@ -18,19 +18,34 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      - name: Install dependencies (UserFrontend)
         run: npm ci
         working-directory: userfrontend
 
-      - name: Build
+      - name: Build (UserFrontend)
         run: npm run build
         working-directory: userfrontend
+
+      - name: Install dependencies (AdminFrontend)
+        run: npm ci
+        working-directory: AdminFrontend
+
+      - name: Build (AdminFrontend)
+        run: npm run build
+        working-directory: AdminFrontend
+
+      - name: Prepare site
+        run: |
+          rm -rf _site
+          mkdir -p _site/admin
+          cp -a userfrontend/dist/. _site/
+          cp -a AdminFrontend/dist/. _site/admin/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./userfrontend/dist
+          publish_dir: ./_site
           publish_branch: gh-pages
           user_name: "github-actions[bot]"
           user_email: "41898282+github-actions[bot]@users.noreply.github.com"
