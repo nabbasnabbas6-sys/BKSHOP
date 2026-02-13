@@ -1,4 +1,4 @@
-name: Deploy Frontends to GitHub Pages
+name: Deploy UserFrontend to GitHub Pages
 
 on:
   push:
@@ -18,34 +18,28 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies (UserFrontend)
+      - name: Install dependencies
         run: npm install
         working-directory: userfrontend
 
-      - name: Build (UserFrontend)
+      - name: Build
         run: npm run build
         working-directory: userfrontend
-
-      - name: Install dependencies (AdminFrontend)
-        run: npm install
-        working-directory: AdminFrontend
-
-      - name: Build (AdminFrontend)
-        run: npm run build
-        working-directory: AdminFrontend
-
-      - name: Prepare site
-        run: |
-          rm -rf _site
-          mkdir -p _site/admin
-          cp -a userfrontend/dist/. _site/
-          cp -a AdminFrontend/dist/. _site/admin/
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
+          publish_dir: ./userfrontend/dist
           publish_branch: gh-pages
           user_name: "github-actions[bot]"
           user_email: "41898282+github-actions[bot]@users.noreply.github.com"
