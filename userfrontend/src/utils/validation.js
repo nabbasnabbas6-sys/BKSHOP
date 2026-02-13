@@ -1,19 +1,23 @@
-export const validateEmail = (email) => {
+﻿export const validateEmail = (email) => {
+  if (typeof email !== 'string') return false
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
+  return emailRegex.test(email.trim())
 }
 
 export const validatePassword = (password) => {
   // Au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre
+  if (typeof password !== 'string') return false
   return password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[0-9]/.test(password)
 }
 
 export const validateDisplayName = (name) => {
-  return name.trim().length >= 2 && name.trim().length <= 50
+  if (typeof name !== 'string') return false
+  const trimmed = name.trim()
+  return trimmed.length >= 2 && trimmed.length <= 50
 }
 
 export const getPasswordStrength = (password) => {
-  if (!password) return 'weak'
+  if (typeof password !== 'string' || !password) return 'weak'
   
   let strength = 0
   if (password.length >= 8) strength++
