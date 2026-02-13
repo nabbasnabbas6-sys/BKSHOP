@@ -19,7 +19,7 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies (UserFrontend)
-        run: npm ci
+        run: npm install
         working-directory: userfrontend
 
       - name: Build (UserFrontend)
@@ -27,7 +27,7 @@ jobs:
         working-directory: userfrontend
 
       - name: Install dependencies (AdminFrontend)
-        run: npm ci
+        run: npm install
         working-directory: AdminFrontend
 
       - name: Build (AdminFrontend)
